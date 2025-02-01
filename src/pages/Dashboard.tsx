@@ -41,6 +41,8 @@ import FertilityForm, { FertilityData } from '@/components/forms/FertilityForm';
 import DisabilitiesForm, { DisabilitiesData } from '@/components/forms/DisabilityForm';
 import AgriculturalActivityForm, { AgriculturalActivity } from '@/components/forms/AgriculturalActivityForm';
 
+
+
 interface FormConfig<T = any> {
   title: string;
   component: FC<T>;
