@@ -2,8 +2,9 @@ import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from './context/AuthContext';
 
+// fixed
 interface ProtectedRouteProps {
-  children?: React.ReactNode;
+  children?: React.ReactElement; 
   redirectIfAuth?: string;
 }
 
@@ -18,11 +19,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, redire
     }
 
     if (!user) {
-      setRedirectTo("");
+      setRedirectTo('/login'); 
     } else if (redirectIfAuth && user) {
-      setRedirectTo(redirectIfAuth);
+      setRedirectTo(redirectIfAuth); 
     } else {
-      setRedirectTo(null);
+      setRedirectTo(null); 
     }
   }, [user, isLoading, redirectIfAuth]);
 
@@ -30,7 +31,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, redire
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
 
-  return children ? children : <Outlet />;
+  return children || <Outlet />;
 };
 
 export default ProtectedRoute;
