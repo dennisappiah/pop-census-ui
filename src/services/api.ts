@@ -58,7 +58,7 @@ export class CensusApiClient {
 
   constructor(config?: AxiosRequestConfig) {
     this.api = axios.create({
-      baseURL: 'http://localhost:8080/api',
+      baseURL: 'https://ecl-spring-apps-popcensus-backend.azuremicroservices.io/api',
       headers: {
         'Content-Type': 'application/json',
         ...config?.headers,
@@ -171,24 +171,32 @@ export class CensusApiClient {
     return this.submitStep(formId, 7, data);
   }
 
-  async submitAgriculturalActivities(formId: string, data: AgriculturalActivity): Promise<Form> {
-    const form = await this.submitStep(formId, 8, data);
-    if (form.currentStep === 8) {
-      // If this is the last step, mark the form as completed
-      return this.completeForm(formId);
-    }
-    return form;
+
+async submitAgriculturalActivities(formId: string, data: AgriculturalActivity): Promise<Form> {
+  const response = await this.api.post<ApiResponse<Form>>(`/forms/${formId}/step8`, data);
+  const updatedForm = this.handleResponse(response);
+
+  // Explicitly mark the form as completed after the last step
+  if (updatedForm.currentStep === 8) {
+    return this.completeForm(formId);
   }
+  return updatedForm;
+}
  
   async validateForm(formId: string): Promise<ValidationResponse> {
     const response = await this.api.get<ApiResponse<ValidationResponse>>(`/forms/${formId}/validate`);
     return this.handleResponse(response);
   }
 
-  async completeForm(formId: string): Promise<Form> {
-    const response = await this.api.post<ApiResponse<Form>>(`/forms/${formId}/complete`);
-    return this.handleResponse(response);
+
+async completeForm(formId: string): Promise<Form> {
+  const response = await this.api.post<ApiResponse<Form>>(`/forms/${formId}/complete`);
+  const completedForm = this.handleResponse(response);
+  if (completedForm.status !== 'COMPLETED') {
+    throw new Error('Form completion failed');
   }
+  return completedForm;
+}
 
   async registerUser(data: {
     username: string;
