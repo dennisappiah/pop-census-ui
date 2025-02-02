@@ -19,7 +19,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, redire
     }
 
     if (!user) {
-      setRedirectTo('/login'); 
+      setRedirectTo(''); 
     } else if (redirectIfAuth && user) {
       setRedirectTo(redirectIfAuth); 
     } else {
