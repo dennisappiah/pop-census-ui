@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(authenticatedUser);
       } catch (error) {
         console.error('Failed to fetch user', error);
-        navigate(''); // Ensure `navigate` is a function
+        navigate(''); 
       } finally {
         setIsLoading(false);
       }
@@ -28,11 +28,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       await censusApi.logout();
       setUser(null);
-      navigate(''); // Ensure `navigate` is a function
+      navigate(''); 
     } catch (error) {
       console.error('Logout failed', error);
       setUser(null);
-      navigate(''); // Ensure `navigate` is a function
+      navigate('');
     }
   };
 

@@ -3,7 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ApiResponse, censusApi, LoginResponse } from '@/services/api';
+import {  censusApi } from '@/services/api';
 
 
 const AuthPages = () => {
@@ -71,15 +71,19 @@ const AuthPages = () => {
         password: loginData.password,
       });
   
+      console.log('API Response:', response); // Log the response
+  
       const token = response?.token || ''; 
-
+  
       if (token) { 
-          localStorage.setItem('census_token', token);
+        localStorage.setItem('census_token', token);
+        console.log('Token saved to localStorage:', token); // Log the token
       } else {
-          throw new Error('No token received from server');
+        throw new Error('No token received from server');
       }
   
       toast.success('Login successful!');
+      console.log('Navigating to /dashboard'); // Log before navigation
       navigate('/dashboard', { replace: true });
     } catch (err: any) {
       console.error('Login Error:', err);

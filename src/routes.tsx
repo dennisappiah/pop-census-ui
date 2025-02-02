@@ -1,34 +1,23 @@
 import { createBrowserRouter } from 'react-router-dom';
-import AuthProvider from './context/AuthProvider';
-import App from './app';
-import ProtectedRoute from './protectedRoutes';
 import Dashboard from './pages/Dashboard';
-import HomePage from './pages/HomePage';
+import AuthPages from './pages/HomePage';
+import ProtectedRoute from './protectedRoutes';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <AuthPages />,
+  },
+  {
+    path: '/dashboard',
     element: (
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
     ),
-    children: [
-      { 
-        path: "", 
-        element: <HomePage /> 
-      },
-      { 
-        path: "dashboard", 
-        element: (
-          <ProtectedRoute> 
-            <Dashboard />
-          </ProtectedRoute>
-        )
-      },
-    ],
   },
 ]);
+
 
 export default router;

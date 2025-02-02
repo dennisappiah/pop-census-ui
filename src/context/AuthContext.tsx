@@ -13,3 +13,4 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export default AuthContext;
+

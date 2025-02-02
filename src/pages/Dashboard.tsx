@@ -519,4 +519,4 @@ const CensusApplication: React.FC = () => {
   );
 };
 
-export default CensusApplication;
+export default CensusApplication
